@@ -1,3 +1,5 @@
+import { CodecError } from './errors.js';
+
 /**
  * A variant describes representation and validation, never byte conversion.
  * Hooks handle containers such as PEM independently of the Base64 algorithm.
@@ -103,7 +105,8 @@ export function decodeBytes(input, variant) {
                (variant.ignore === 'whitespace' && /[\t\n\v\f\r ]/.test(character))) {
       continue;
     } else {
-      throw new Error(`Invalid character ${JSON.stringify(character)} at position ${i + 1} for ${variant.name}.`);
+      throw new CodecError('invalidCharacter', `Invalid character ${JSON.stringify(character)} at position ${i + 1} for ${variant.name}.`,
+        { character: JSON.stringify(character), position: i + 1, variant: variant.name });
     }
   }
 
@@ -113,16 +116,17 @@ export function decodeBytes(input, variant) {
   const remainder = dataLength % 4;
   if (padCount && (padCount > 2 || !/^=+$/.test(clean.slice(dataLength)) ||
       clean.length % 4 !== 0 || (padCount === 2 ? remainder !== 2 : remainder !== 3))) {
-    throw new Error('Invalid padding. Use one or two "=" characters only at the end of a complete four-character group.');
+    throw new CodecError('invalidPadding', 'Invalid padding. Use one or two "=" characters only at the end of a complete four-character group.');
   }
-  if (remainder === 1) throw new Error('Invalid Base64 length. A final group cannot contain only one character.');
+  if (remainder === 1) throw new CodecError('invalidLength', 'Invalid Base64 length. A final group cannot contain only one character.');
   if (!padCount && remainder && variant.padding === 'required') {
-    throw new Error(`Missing padding. ${variant.name} requires ${'='.repeat(4 - remainder)} at the end.`);
+    throw new CodecError('missingPadding', `Missing padding. ${variant.name} requires ${'='.repeat(4 - remainder)} at the end.`,
+      { variant: variant.name, padding: '='.repeat(4 - remainder) });
   }
   if (variant.canonical && remainder) {
     const lastValue = lookup[clean.charCodeAt(dataLength - 1)];
     if (lastValue & (remainder === 2 ? 15 : 3)) {
-      throw new Error('Non-canonical Base64: unused bits in the final character must be zero.');
+      throw new CodecError('nonCanonical', 'Non-canonical Base64: unused bits in the final character must be zero.');
     }
   }
 

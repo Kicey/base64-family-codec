@@ -33,7 +33,7 @@ button {
   cursor: pointer;
 }
 
-button: disabled {
+button:disabled {
   cursor: default;
   color: #8993a6;
 }
@@ -43,11 +43,11 @@ a {
   text-decoration: none;
 }
 
-a: hover {
+a:hover {
   color: var(--blue);
 }
 
-button: focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible {
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible {
   outline: 3px solid #82a7ff;
   outline-offset: 4px;
 }
@@ -62,8 +62,11 @@ button: focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,t
 }
 
 .site-header {
-  height: 92px;
+  min-height: 92px;
+  padding-block: 16px;
   display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--line);
@@ -102,8 +105,27 @@ button: focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,t
   color: #4c5c76;
 }
 
-.source-link span {
+.source-link span[aria-hidden] {
   margin-left: 8px;
+}
+
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px 20px;
+  margin-left: auto;
+}
+
+.language-control select {
+  max-width: 100%;
+  font-size: 13px;
+}
+
+:lang(zh-CN) h1 {
+  letter-spacing: 0;
+  line-height: 1.4;
 }
 
 .intro {
@@ -292,7 +314,7 @@ h1 {
   font-weight: 550;
 }
 
-.mode-switch button span {
+.mode-switch button span[aria-hidden] {
   margin-left: 12px;
 }
 
@@ -390,13 +412,13 @@ textarea {
   border-radius: 0;
 }
 
-textarea: :placeholder {
+textarea::placeholder {
   color: #7f8ba1;
   font-family: inherit;
   font-size: 13px;
 }
 
-textarea: focus-visible {
+textarea:focus-visible {
   outline-offset: -3px;
 }
 
@@ -664,7 +686,14 @@ kbd {
     width: calc(100% - 32px);
   }
   .site-header {
-    height: 74px;
+    min-height: 74px;
+    gap: 12px;
+  }
+  .header-actions {
+    gap: 10px;
+  }
+  .language-control select {
+    font-size: 12px;
   }
   .source-link {
     font-size: 13px;
@@ -702,7 +731,7 @@ kbd {
   .mode-switch button {
     padding: 8px 12px;
   }
-  .mode-switch button span {
+  .mode-switch button span[aria-hidden] {
     margin-left: 7px;
   }
   .auto-control {

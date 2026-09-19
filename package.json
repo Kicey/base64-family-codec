@@ -10,6 +10,6 @@
     "build": "node scripts/build.js",
     "preview": "node scripts/serve.js --dist",
     "test": "node --test",
-    "check": "node --check src/app.js && node --check src/codec/base64.js && node --check src/codec/variants.js && node --check src/codec/pem.js && node --check src/codec/bytes.js"
+    "check": "node --check src/app.js && node --check src/codec/base64.js && node --check src/codec/variants.js && node --check src/codec/pem.js && node --check src/codec/bytes.js && node --check src/codec/errors.js && node --check src/i18n/index.js && node --check src/i18n/messages.js"
   }
 }

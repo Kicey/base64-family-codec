@@ -26,6 +26,12 @@ When decoded text contains carriage returns, **Use as input** switches to hex so
 
 Hex mode supports arbitrary binary data. UTF-8 decoding rejects malformed sequences instead of silently replacing bytes. The interface limits input to 2,000,000 characters per conversion to keep synchronous work bounded; the library does not impose this limit.
 
+### Language
+
+The interface supports **English** and **Simplified Chinese**, including help text, validation errors, byte counts, and accessibility labels. On first visit, it uses the first supported language in the browser's language preferences. All `zh` locales use Simplified Chinese, all `en` locales use English, and other languages fall back to English when there is no supported preference.
+
+Use the header's language selector to override detection. The choice is saved under the repository-specific `base64-family-codec.language` localStorage key. **Follow browser / 跟随浏览器** clears the override and restores automatic detection. If storage is unavailable, switching still works for the current page. Only the language preference is saved; input and output are never stored. Switching language preserves current input, output, options, and manual-conversion state.
+
 ## Variant policies
 
 | Variant | Last two symbols | Encoding padding | Wrapping | Decoding |
@@ -57,7 +63,11 @@ flowchart LR
 - `src/codec/variants.js`: immutable profiles and display metadata.
 - `src/codec/pem.js`: optional PEM envelope parsing and formatting.
 - `src/codec/bytes.js`: UTF-8 and hexadecimal adapters.
+- `src/codec/errors.js`: stable error codes and parameters; the library retains English error messages for callers.
+- `src/i18n/`: translation dictionaries, browser-language detection, and preference storage. Translation stays outside the codec.
 - `src/app.js`: UI state and event handling.
+
+To add another UI language, add a dictionary in `src/i18n/messages.js`, extend the supported preferences and detection in `src/i18n/index.js`, and add an option to the header selector. Variant translations use `variant.<id>.<field>` keys; missing translations fall back to the profile's English metadata. Static text uses `data-i18n` attributes; accessibility labels use `data-i18n-aria-label`. Dynamic messages use named placeholders.
 
 Add a `defineVariant(...)` entry to `variants` in `src/codec/variants.js`. The interface builds its variant selector from this registry. Use a 64-symbol printable ASCII alphabet, a padding policy, a line length, an ignored-character policy, and optional `wrap`/`unwrap` hooks. New profiles need no changes to the byte algorithm. Add reference vectors for each new profile; encodings with different bit packing, such as Base32, need their own algorithm.
 
