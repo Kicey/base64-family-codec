@@ -1,0 +1,15 @@
+{
+  "name": "base64-family-codec",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A dependency-free Base64 family codec for the browser.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "node scripts/serve.js",
+    "build": "node scripts/build.js",
+    "preview": "node scripts/serve.js --dist",
+    "test": "node --test",
+    "check": "node --check src/app.js && node --check src/codec/base64.js && node --check src/codec/variants.js && node --check src/codec/pem.js && node --check src/codec/bytes.js"
+  }
+}

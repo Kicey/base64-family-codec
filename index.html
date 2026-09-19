@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Encode and decode Base64, Base64URL, MIME, and PEM locally in your browser. UTF-8 text and binary hex, with clear validation." />
+    <meta name="theme-color" content="#194de1" />
+    <title>Base64 family codec</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./src/styles.css" />
+    <script type="module" src="./src/app.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Base64 family codec home"><span class="brand-mark">64</span><span>kicey<span class="brand-slash">/</span><strong>tools</strong></span></a>
+      <a class="source-link" href="https://github.com/Kicey/base64-family-codec" target="_blank" rel="noreferrer">Source code <span aria-hidden="true">↗</span></a>
+    </header>
+    <main>
+      <section class="intro" aria-labelledby="title">
+        <div><p class="eyebrow">THE BASE64 FAMILY</p><h1 id="title">A different alphabet.<br class="mobile-break" /> The same bytes.</h1><p class="intro-description">Encode and decode text or binary with the right Base64 variant.</p></div>
+        <div class="local-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v3"/></svg><span>Only in your browser.<br /><strong>Your input stays here.</strong></span></div>
+      </section>
+      <form id="codec-form" novalidate>
+        <fieldset class="variant-fieldset"><legend class="section-label">01 <span>Choose a variant</span></legend><div id="variant-options" class="variant-grid"></div></fieldset>
+        <section class="workspace" aria-label="Codec workspace">
+          <div class="workspace-toolbar">
+            <div class="mode-switch" role="group" aria-label="Operation"><button type="button" id="encode-mode" aria-pressed="true">Encode <span aria-hidden="true">↗</span></button><button type="button" id="decode-mode" aria-pressed="false">Decode <span aria-hidden="true">↙</span></button></div>
+            <label class="auto-control"><input type="checkbox" id="auto-convert" checked /> Auto convert</label>
+          </div>
+          <div class="editors">
+            <div class="editor input-editor">
+              <div class="editor-header"><label for="input">Input</label><span id="input-kind" class="format-label">UTF-8 text</span><button type="button" id="sample" class="text-button">Try an example</button></div>
+              <textarea id="input" spellcheck="false" autocomplete="off" autocapitalize="off" aria-describedby="input-help error" placeholder="Type or paste something here…"></textarea>
+              <div class="editor-footer"><span id="input-count">0 bytes</span><button type="button" id="clear" class="text-button">Clear</button></div>
+            </div>
+            <div class="editor output-editor">
+              <div class="editor-header"><label for="output">Output</label><span id="output-kind" class="format-label">Base64</span><button type="button" id="copy" class="text-button" disabled>Copy output</button></div>
+              <textarea id="output" spellcheck="false" readonly aria-describedby="output-help" placeholder="Your encoded output will appear here."></textarea>
+              <div class="editor-footer"><span id="output-count">0 characters</span><button type="button" id="use-output" class="text-button" disabled>Use as input <span aria-hidden="true">⇄</span></button></div>
+            </div>
+          </div>
+          <div class="settings-row">
+            <label class="format-control" for="byte-format">Byte format <select id="byte-format"><option value="text">UTF-8 text</option><option value="hex">Hex bytes</option></select></label>
+            <label id="padding-control" class="check-control" hidden><input type="checkbox" id="include-padding" /> Include padding (=)</label>
+            <div id="pem-controls" class="pem-controls" hidden><label class="check-control"><input type="checkbox" id="include-armor" /> PEM boundaries</label><label id="label-control" hidden>Label <input type="text" id="pem-label" value="DATA" maxlength="100" aria-label="PEM label" spellcheck="false" /></label></div>
+            <button type="submit" id="convert" class="primary-button">Encode <span aria-hidden="true">→</span></button>
+          </div>
+          <div class="feedback-row"><p id="input-help">Text is encoded as UTF-8. Whitespace in your text is preserved.</p><span class="shortcut"><kbd>⌘</kbd> / <kbd>Ctrl</kbd> + <kbd>Enter</kbd></span></div>
+          <p id="error" class="error-message" role="alert" hidden></p>
+          <p id="output-help" class="sr-only">Read-only result. Copy output preserves the variant's original line endings.</p>
+          <p id="status" class="sr-only" role="status" aria-live="polite"></p>
+        </section>
+      </form>
+      <section class="variant-reference" aria-labelledby="reference-title">
+        <div class="reference-intro"><p class="section-label">02 <span>Under the alphabet</span></p><h2 id="reference-title">Base64</h2><p id="variant-description"></p><a id="spec-link" href="https://www.rfc-editor.org/rfc/rfc4648.html#section-4" target="_blank" rel="noreferrer">RFC 4648 §4 ↗</a></div>
+        <div class="reference-data"><dl><div><dt>Alphabet</dt><dd id="alphabet-detail">A–Z a–z 0–9 + /</dd></div><div><dt>Padding</dt><dd id="padding-detail">Required (=)</dd></div><div><dt>Line wrapping</dt><dd id="wrapping-detail">None</dd></div></dl><p id="decode-note"></p></div>
+      </section>
+      <noscript><p class="error-message">Enable JavaScript to use the codec. Conversion runs entirely in your browser.</p></noscript>
+    </main>
+    <footer class="site-footer"><span>BASE64 FAMILY CODEC</span><span>Built for bytes. Open by design.</span><a href="https://kicey.github.io/">More from kicey ↗</a></footer>
+  </body>
+</html>
